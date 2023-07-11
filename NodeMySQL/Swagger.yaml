@@ -1,0 +1,202 @@
+openapi: 3.0.0
+info:
+  title: User Management
+  description: APIs for handling User Management services.
+  version: 1.1 
+  
+
+servers:
+  - url: http://localhost:8081/
+    description:  Local server 
+  - url: https://Replica.com/
+    description:  Pre Production server
+  - url: https://test.com/
+    description:  Production server
+   
+# components:
+#   securitySchemes:
+#     ApiTokenss:        # arbitrary name for the security scheme
+          
+#       type: http
+#       scheme: basic
+    
+#     ApiKey:        # arbitrary name for the security scheme
+#       type: apiKey
+#       in: header       # can be "header", "query" or "cookie"
+#       name: apikey
+
+
+# Get the specific user by Id using GET
+paths:
+  /api/getuserbyid/{userId}:
+    get:
+      tags:
+        - GetUserDetailsById
+      summary: Returns a user details by ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Please enter userId.
+          schema:
+            type: integer
+            # format: int64
+            # example: "Users String"
+            minimum: 1
+      responses: 
+        '200':
+          description: Success
+
+# Get the user by firstName using GET
+  /api/getuser/getuser?firstname:
+    get:
+      tags:
+        - GetUserDetailsByName
+      summary: Returns the specific userdetails by Name.
+      parameters:
+        - in: query
+          name: firstname
+          required: true
+          description: Please enter FirstName.
+          schema:
+            type: string
+            minimum: 1
+      responses: 
+        '200':
+          description: Success
+
+# Get all the user using GET
+  /api/getuser:
+    get:
+      tags:
+        - GetUserDetails
+      summary: Fetch a user details.
+      responses: 
+        '200':
+          description: Success
+
+# Update the user using PUT
+  /api/updateuser/{userId}:
+    put:
+      tags:
+       - UpdateUserDetails
+      summary: Update the user details.
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: Please enter userId.
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        description: <h2><b> FirstName* </b>  is required </h2> <br />
+                     <h2><b> LastName* </b>  is required </h2> <br />
+                     <h2><b> Department* </b>  is required </h2> <br />
+                     <h2><b> IsActive* </b>  is required </h2> <br />
+        content:
+          application/json:
+            schema:
+             oneOf:
+              - $ref: '#/components/schemas/User'             
+              - $ref: '#/components/schemas/UserModel'
+          application/xml:
+            schema:
+             oneOf:
+              - $ref: '#/components/schemas/User'             
+              - $ref: '#/components/schemas/UserModel'
+          application/x-www-form-urlencoded:
+            schema:
+             oneOf:
+              - $ref: '#/components/schemas/User'             
+              - $ref: '#/components/schemas/UserModel'
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+
+# Save the user using POST
+  /api/adduser:
+    post:
+      tags:
+       - AddUserDetails
+      summary: Create a user details.
+      requestBody:
+        description: <h2><b> Email* </b>  is required </h2>
+        required: true
+        content:
+          application/json:
+            schema:
+             oneOf:
+              - $ref: '#/components/schemas/UserModel'
+              - $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+             oneOf:
+              - $ref: '#/components/schemas/UserModel'
+              - $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+             oneOf:
+              - $ref: '#/components/schemas/UserModel'
+              - $ref: '#/components/schemas/User'
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '201':
+          description: Created
+
+# Delete the user using GET
+  /api/deleteuser/{Id}:
+    get:
+      tags:
+        - DeleteUserDetailsById
+      summary: Delete the user details by ID.
+      parameters:
+        - name: Id
+          in: path
+          required: true
+          description: Please enter userId to delete specific user.
+          schema:
+            type: integer
+            minimum: 1
+      responses: 
+        '200':
+          description: Success
+
+# Schema object component
+components:
+  schemas:
+    UserModel:
+     type: object
+     properties:
+       FirstName:
+         type: string
+       LastName:
+         type: string
+       Email:
+         type: string
+         required: true
+       Age:
+         type: integer
+       Department:
+         type: string
+       IsActive:
+         type: boolean
+    User:
+     type: object
+     properties:
+       FirstName:
+        type: string
+       LastName:
+        type: string
+       Department:
+        type: string
+       IsActive:
+        type: boolean
+
+
