@@ -1,0 +1,21 @@
+1. POST - http://localhost:8081/api/adduser                    //req.body.FirstName
+{
+  "FirstName": "Ram Kalyan",
+  "LastName": "Ray",
+  "Email": "ram@gmail.com",
+  "Age": 66,
+  "Department": "Cetizanship",
+  "IsActive": true
+}
+
+2. GET - http://localhost:8081/api/getuserbyid/8               //req.params.id
+3. GET - http://localhost:8081/api/getuser
+4. GET - http://localhost:8081/api/getuser?firstname=sudhir    //req.query.firstname
+5. PUT - http://localhost:8081/api/updateuser/8                //req.params.id
+{
+  "FirstName": "Ram Kalyan",                                   //req.body.FirstName
+  "LastName": "Ray",
+  "Department": "Senior Citizen",
+  "IsActive": false
+}
+6. GET - http://localhost:8081/api/deleteuser/4                //req.params.id
